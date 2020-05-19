@@ -6,7 +6,8 @@ const routes = require("./routes");
 const PORT = process.env.PORT || 3001;
 const mongooseOptions = {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useCreateIndex: true
 }
 mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/jobSearchDB'), mongooseOptions);
 const app = express();

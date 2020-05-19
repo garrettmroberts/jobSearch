@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -49,10 +48,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log("Finding user...")
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div className={classes.paper} onSubmit={handleSubmit}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -95,10 +99,10 @@ export default function SignIn() {
           >
             Sign In
           </Button>
-          <Link href="/signup" variant="body2">
-            {"Don't have an account? Sign Up"}
-          </Link>
         </form>
+        <Link href="/signup" variant="body2">
+          {"Don't have an account? Sign Up"}
+        </Link>
       </div>
       <Box mt={8}>
         <Copyright />

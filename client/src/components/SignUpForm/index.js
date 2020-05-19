@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -52,6 +51,11 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUpForm() {
   const classes = useStyles();
 
+  const handleSumbit = e => {
+    e.preventDefault();
+    console.log("Adding user");
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -62,7 +66,7 @@ export default function SignUpForm() {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onClick={handleSumbit}>
           <TextField
             variant="outlined"
             className={classes.nameInputLeft}
@@ -127,10 +131,10 @@ export default function SignUpForm() {
           >
             Sign In
           </Button>
-          <Link href="/signup" variant="body2">
-            {"Don't have an account? Sign Up"}
-          </Link>
         </form>
+        <Link href="/login" variant="body2">
+          {"Already have an account? Sign In"}
+        </Link>
       </div>
       <Box mt={8}>
         <Copyright />
