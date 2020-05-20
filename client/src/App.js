@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
+import { StoreProvider } from './utils/context';
+import Main from "./pages/main";
 import SignInForm from './components/SignInForm';
 import SignUpForm from "./components/SignUpForm";
 
@@ -24,16 +26,21 @@ const theme = createMuiTheme({
 function App() {
   return (
    <Router>
-     <ThemeProvider theme={theme}>
-      <Switch>
-        <Route path = "/login">
-          <SignInForm />
-        </Route>
-        <Route path="/signup">
-          <SignUpForm />
-        </Route>
-      </Switch>
-    </ThemeProvider>
+     <StoreProvider>
+      <ThemeProvider theme={theme}>
+        <Switch>
+          <Route path = "/login">
+            <SignInForm />
+          </Route>
+          <Route path="/signup">
+            <SignUpForm />
+          </Route>
+            <Route path="/">
+              <Main />
+            </Route>
+        </Switch>
+      </ThemeProvider>
+      </StoreProvider>
    </Router>
   );
 }
