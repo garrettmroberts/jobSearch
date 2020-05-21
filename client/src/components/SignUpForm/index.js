@@ -110,6 +110,12 @@ export default function SignUpForm() {
             required
             fullWidth
             id="email"
+            error = {state.email !== undefined
+              && !/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(state.email)
+            ? true : false}
+            helperText= {state.email !== undefined
+              && !/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(state.email)
+              ? 'Invalid email.' : ''}
             label="Email Address"
             name="email"
             autoComplete="email"
@@ -123,6 +129,12 @@ export default function SignUpForm() {
             label="Password"
             type="password"
             id="password"
+            error={state.password !== undefined
+              && state.password.length < 8
+              ? true : false}
+            helperText={state.password !== undefined
+              && state.password.length < 8
+              ? 'Password is too short.' : ''}
           />
           <TextField
             variant="outlined"
@@ -133,6 +145,14 @@ export default function SignUpForm() {
             label="Confirm Password"
             type="password"
             id="password2"
+            error={state.password !== undefined
+            && state.password2 !== undefined
+            && state.password !== state.password2
+            ? true : false}
+            helperText={state.password !== undefined
+              && state.password2 !== undefined
+              && state.password !== state.password2
+              ? "Passwords don't match." : ''}
           />
           <Button
             type="submit"
