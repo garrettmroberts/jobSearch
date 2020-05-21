@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import API from '../../utils/API';
 
 function Copyright() {
   return (
@@ -50,10 +51,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpForm() {
   const classes = useStyles();
+  const [state, dispatch] = useState({})
+
+  const handleChange = e => {
+    dispatch({...state, [e.target.id]: e.target.value})
+  }
 
   const handleSumbit = e => {
     e.preventDefault();
-    console.log("Adding user");
+    const userData = {
+      firstName: state.firstName,
+      lastName: state.lastName,
+      email: state.email,
+      password: state.password
+    };
+
+    API.createUser(userData)
+    .then((res) => {
+      console.log(res.data)
+    })
   }
 
   return (
@@ -66,7 +82,7 @@ export default function SignUpForm() {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <form className={classes.form} noValidate onClick={handleSumbit}>
+        <form className={classes.form} noValidate onChange={handleChange}>
           <TextField
             variant="outlined"
             className={classes.nameInputLeft}
@@ -118,16 +134,13 @@ export default function SignUpForm() {
             type="password"
             id="password2"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSumbit}
           >
             Sign In
           </Button>

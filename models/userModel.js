@@ -11,7 +11,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  username: {
+  email: {
     type: String,
     required: true,
     unique: true,
@@ -35,8 +35,8 @@ userSchema.methods.verifyPassword = pw => {
   return bcrypt.compareSync(pw, this.password);
 };
 
-userSchema.pre(/^insert/, () => {
-  this.password = bcrypt.hashSync(this.password);
+userSchema.pre('save', function() {
+  this.password = bcrypt.hashSync(this.password, 10);
 });
 
 const User = mongoose.model("User", userSchema);
