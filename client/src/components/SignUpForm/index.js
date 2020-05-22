@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -12,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import API from '../../utils/API';
+import { useStoreContext } from '../../utils/context';
 
 function Copyright() {
   return (
@@ -51,14 +51,36 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpForm() {
   const classes = useStyles();
-  const [state, dispatch] = useState({})
+  const [state, dispatch] = useState({
+    redirect: false
+  })
+  const [globalState, globalDispatch] = useStoreContext();
 
   const handleChange = e => {
     dispatch({...state, [e.target.id]: e.target.value})
   }
 
-  const handleSumbit = e => {
+  async function handleSumbit(e) {
     e.preventDefault();
+
+    if (state.password !== state.password2 || state.password === undefined || state.password.length === 0 ) {
+      return;
+    };
+
+    if (state.firstName === undefined || state.firstName.length === 0) {
+      return;
+    };
+
+    if (state.lastName === undefined || state.lastName.length === 0) {
+      return;
+    };
+
+    const emailList = await API.getUsers();
+    if (emailList.data.includes(state.email)) {
+      dispatch({...state, validEmail: false});
+      return;
+    };
+
     const userData = {
       firstName: state.firstName,
       lastName: state.lastName,
@@ -68,8 +90,13 @@ export default function SignUpForm() {
 
     API.createUser(userData)
     .then((res) => {
-      console.log(res.data)
-    })
+      globalDispatch({type: 'login', payload: res.data});
+      dispatch({...state, validEmail: true, redirect: true});
+    });
+  };
+
+  if (state.redirect) {
+    return <Redirect to="/" />
   }
 
   return (
@@ -82,7 +109,7 @@ export default function SignUpForm() {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <form className={classes.form} noValidate onChange={handleChange}>
+        <form className={classes.form} onChange={handleChange}>
           <TextField
             variant="outlined"
             className={classes.nameInputLeft}
@@ -154,6 +181,7 @@ export default function SignUpForm() {
               && state.password !== state.password2
               ? "Passwords don't match." : ''}
           />
+          <Typography variant="body2" component="h2">{state.validEmail === false ? 'That email is associated with another account.  Try again?' : ''}</Typography>
           <Button
             type="submit"
             fullWidth

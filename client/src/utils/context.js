@@ -8,11 +8,11 @@ const reducer = (state, action) => {
 
   switch (action.type) {
     case 'login':
+      console.log('STATE: ', state);
       return {
         ...state,
         isLoggedIn: true,
-        currentUser: action.user,
-        test: action.test
+        currentUser: action.payload._id,
       };
     default:
       console.log('STATE in reducer: ', state);
@@ -22,7 +22,7 @@ const reducer = (state, action) => {
 
 const StoreProvider = ({ ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
-    providerConnected: true,
+    isLoggedIn: false
   });
   return <Provider value={[state, dispatch]} {...props} />
 };

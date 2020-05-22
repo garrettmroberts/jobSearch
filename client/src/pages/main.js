@@ -5,7 +5,7 @@ import { useStoreContext } from '../utils/context';
 const Main = () => {
   const [state, dispatch] = useStoreContext();
 
-  if (!state.currentUser) {
+  if (state.isLoggedIn === false) {
     return(
       <Redirect to='/signup' />
     )

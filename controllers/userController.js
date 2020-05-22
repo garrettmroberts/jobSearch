@@ -3,7 +3,12 @@ const db = require('../models');
 module.exports = {
   findAll: (req, res) => {
     db.User.find({})
-      .then(dbModel => {res.json(dbModel)})
+      .then(dbModel => {
+        const results = dbModel.map(doc => {
+          return doc.get('email');
+        });
+        res.json(results);
+      })
       .catch(err => res.status(422).json(err));
   },
 
