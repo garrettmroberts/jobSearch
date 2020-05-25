@@ -31,7 +31,9 @@ const userSchema = new Schema({
   // }
 });
 
-userSchema.methods.verifyPassword = pw => {
+userSchema.methods.verifyPassword = function(pw) {
+  console.log(pw);
+  console.log(this.password);
   return bcrypt.compareSync(pw, this.password);
 };
 

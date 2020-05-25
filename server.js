@@ -1,12 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+const passport = require("./scripts/passport")
 const routes = require("./routes");
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const PORT = process.env.PORT || 3001;
 const mongooseOptions = {
