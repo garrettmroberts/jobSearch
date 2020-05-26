@@ -9,16 +9,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-const PORT = process.env.PORT || 3001;
 const mongooseOptions = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true
 }
 mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/jobSearchDB'), mongooseOptions);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+const PORT = process.env.PORT || 3001;
+
 
 app.use(routes);
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -35,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [state, setState] = useState();
+  const [state, setState] = useState({
+    redirect: false
+  });
+  const [globalState, dispatch] = useStoreContext();
 
   const handleChange = e => {
     setState({...state, [e.target.id]: e.target.value});
@@ -49,9 +53,16 @@ export default function SignIn() {
     };
     API.login(user)
       .then(res => {
-        console.log(res.data)
+        console.log("DATA: ", res);
+        dispatch({type: 'login', payload: res.data})
+        setState({...state, redirect: true})
       })
+      .catch(err => console.log('Invalid username/password combination.'));
   }
+
+  if (state.redirect) {
+    return <Redirect to="/" />;
+  };
 
   return (
     <Container component="main" maxWidth="xs">

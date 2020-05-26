@@ -21,19 +21,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
     match: /[a-z0-9]{8,}/i
-  },
-  // jobs: {
-  //   type: [{
-  //     type: mongoose.ObjectId,
-  //     ref: Job
-  //   }],
-  //   default: []
-  // }
+  }
 });
 
 userSchema.methods.verifyPassword = function(pw) {
-  console.log(pw);
-  console.log(this.password);
   return bcrypt.compareSync(pw, this.password);
 };
 
