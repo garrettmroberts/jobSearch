@@ -54,8 +54,8 @@ export default function SignIn() {
     API.login(user)
       .then(res => {
         console.log("DATA: ", res);
-        dispatch({type: 'login', payload: res.data})
-        setState({...state, redirect: true})
+        dispatch({type: 'login', payload: {"_id": res.data}});
+        setState({...state, redirect: true});
       })
       .catch(err => console.log('Invalid username/password combination.'));
   }

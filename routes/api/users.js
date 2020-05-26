@@ -13,7 +13,7 @@ router
   .route('/login')
   .post(passport.authenticate('local'), (req, res) => {
     if (req.body) {
-      return res.json(req.body);
+      return res.json(req.user._id);
     };
     return res.json(null);
   });

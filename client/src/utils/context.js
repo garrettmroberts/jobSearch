@@ -15,7 +15,6 @@ const reducer = (state, action) => {
         currentUser: action.payload._id,
       };
     default:
-      console.log('STATE in reducer: ', state);
       return state;
   }
 };
